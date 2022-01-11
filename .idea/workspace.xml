@@ -58,6 +58,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="355" y="0" key="CommitChangelistDialog2" timestamp="1641886725074">
+      <screen x="0" y="0" width="1500" height="960" />
+    </state>
+    <state x="355" y="0" key="CommitChangelistDialog2/0.0.1500.960@0.0.1500.960" timestamp="1641886725074" />
     <state x="532" y="237" key="FileChooserDialogImpl" timestamp="1641886272846">
       <screen x="0" y="0" width="1500" height="960" />
     </state>
@@ -66,5 +70,17 @@
       <screen x="0" y="0" width="1500" height="960" />
     </state>
     <state x="252" y="123" key="SettingsEditor/0.0.1500.960@0.0.1500.960" timestamp="1641886276864" />
+    <state x="499" y="104" key="VCS.ChangeListViewerDialog" timestamp="1641886690516">
+      <screen x="0" y="0" width="1500" height="960" />
+    </state>
+    <state x="499" y="104" key="VCS.ChangeListViewerDialog/0.0.1500.960@0.0.1500.960" timestamp="1641886690516" />
+    <state x="343" y="210" key="Vcs.Push.Dialog.v2" timestamp="1641886741586">
+      <screen x="0" y="0" width="1500" height="960" />
+    </state>
+    <state x="343" y="210" key="Vcs.Push.Dialog.v2/0.0.1500.960@0.0.1500.960" timestamp="1641886741586" />
+    <state x="553" y="367" key="git4idea.ui.GitResetDialog" timestamp="1641886704547">
+      <screen x="0" y="0" width="1500" height="960" />
+    </state>
+    <state x="553" y="367" key="git4idea.ui.GitResetDialog/0.0.1500.960@0.0.1500.960" timestamp="1641886704547" />
   </component>
 </project>
