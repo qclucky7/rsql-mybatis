@@ -1,0 +1,14 @@
+com.github.mybatis.searcher.solver.EqualConditionSolver
+com.github.mybatis.searcher.solver.NotEqualConditionSolver
+com.github.mybatis.searcher.solver.SortableConditionSolver
+com.github.mybatis.searcher.solver.LessThanConditionSolver
+com.github.mybatis.searcher.solver.GreaterThanConditionSolver
+com.github.mybatis.searcher.solver.LessThanOrEqualConditionSolver
+com.github.mybatis.searcher.solver.GreaterThanOrEqualConditionSolver
+com.github.mybatis.searcher.solver.BetweenConditionSolver
+com.github.mybatis.searcher.solver.IncludeSelectSetSolver
+com.github.mybatis.searcher.solver.ExcludeSelectSetSolver
+com.github.mybatis.searcher.solver.InConditionSolver
+com.github.mybatis.searcher.solver.NotInConditionSolver
+com.github.mybatis.searcher.solver.LikeConditionSolver
+com.github.mybatis.searcher.solver.LikeRightConditionSolver
