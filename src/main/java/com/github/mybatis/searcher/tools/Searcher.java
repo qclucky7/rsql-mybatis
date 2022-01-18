@@ -9,6 +9,7 @@ import com.github.mybatis.searcher.Searchable;
  **/
 public final class Searcher {
 
+
     public static <T> SearchObjectBuilder<T> builder(Class<T> clazz) {
         return new SearchObjectBuilder<>(clazz);
     }

@@ -19,11 +19,10 @@ import java.util.stream.Collectors;
 public abstract class AbstractInConditionSolver extends AbstractConditionSolver {
 
     @Override
-    public ExpressionWrapper doHandle(PlainSelect plainSelect, Field filed, String columnName, List<String> arguments) {
-        Class<?> type = filed.getType();
+    public ExpressionWrapper doHandle(PlainSelect plainSelect, Class<?> type, String columnName, List<String> arguments) {
         ExpressionList expressionList = new ExpressionList();
         List<Expression> placeholderExpression;
-        List<Object> result = ConverterFactory.lookupToConvert(filed, arguments);
+        List<Object> result = ConverterFactory.lookupToConvert(type, arguments);
         if (CollUtil.isEmpty(result)){
             return null;
         }

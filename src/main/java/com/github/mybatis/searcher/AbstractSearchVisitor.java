@@ -156,7 +156,7 @@ public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<Plai
      * @param field field
      * @param targetSearchConverterClass {@code Class<? extends SearchConverter<?>>}
      */
-    public void loadingConverter(Field field, Class<? extends SearchConverter<?>> targetSearchConverterClass) throws IllegalAccessException {
+    protected void loadingConverter(Field field, Class<? extends SearchConverter<?>> targetSearchConverterClass) throws IllegalAccessException {
         if (EmptyConverter.class.equals(targetSearchConverterClass)){
             return;
         }

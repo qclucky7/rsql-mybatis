@@ -21,7 +21,7 @@ public class SortableConditionSolver extends AbstractConditionSolver {
     private static final Set<String> SORT_CHARACTERS = CollUtil.newHashSet(DESC, ASC);
 
     @Override
-    public ExpressionWrapper doHandle(PlainSelect plainSelect, Field filed, String columnName, List<String> arguments) {
+    public ExpressionWrapper doHandle(PlainSelect plainSelect, Class<?> type, String columnName, List<String> arguments) {
         List<OrderByElement> orderByElements = plainSelect.getOrderByElements();
         if (CollUtil.isEmpty(orderByElements)) {
             plainSelect.setOrderByElements(CollUtil.newArrayList());

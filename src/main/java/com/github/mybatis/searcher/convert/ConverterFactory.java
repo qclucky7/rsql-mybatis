@@ -18,19 +18,19 @@ import java.util.stream.Collectors;
 public class ConverterFactory {
 
     private static final Map<Class<?>, SearchConverter<?>> SEARCH_CONVERTER_MAP = new ConcurrentHashMap<>(9);
-    private static final Map<Field, SearchConverter<?>> CUSTOM_CONVERTER_MAP = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, SearchConverter<?>> CUSTOM_CONVERTER_MAP = new ConcurrentHashMap<>();
 
-    public static SearchConverter<?> lookup(Field field) {
-        final SearchConverter<?> searchConverter = CUSTOM_CONVERTER_MAP.get(field);
+    public static SearchConverter<?> lookup(Class<?> type) {
+        final SearchConverter<?> searchConverter = CUSTOM_CONVERTER_MAP.get(type);
         if (ObjectUtil.isNull(searchConverter)) {
-            return SEARCH_CONVERTER_MAP.get(field.getType());
+            return SEARCH_CONVERTER_MAP.get(type);
         }
         return searchConverter;
     }
 
 
-    public static Object lookupToConvert(Field field, String param) {
-        final SearchConverter<?> searchConverter = lookup(field);
+    public static Object lookupToConvert(Class<?> type, String param){
+        final SearchConverter<?> searchConverter = lookup(type);
         if (ObjectUtil.isNull(searchConverter)) {
             return null;
         }
@@ -43,11 +43,19 @@ public class ConverterFactory {
     }
 
 
-    public static List<Object> lookupToConvert(Field field, List<String> params) {
+    public static Object lookupToConvert(Field field, String param) {
+        if (ObjectUtil.isNull(field)){
+            return null;
+        }
+        return lookupToConvert(field.getType(), param);
+    }
+
+
+    public static List<Object> lookupToConvert(Class<?> type, List<String> params) {
         if (CollUtil.isEmpty(params)) {
             return Collections.emptyList();
         }
-        final SearchConverter<?> searchConverter = lookup(field);
+        final SearchConverter<?> searchConverter = lookup(type);
         if (ObjectUtil.isNull(searchConverter)) {
             return null;
         }
@@ -64,6 +72,14 @@ public class ConverterFactory {
     }
 
 
+    public static List<Object> lookupToConvert(Field field, List<String> params) {
+        if (ObjectUtil.isNull(field)){
+            return Collections.emptyList();
+        }
+        return lookupToConvert(field.getType(), params);
+    }
+
+
     /**
      * 加载所有自定义转换器
      *
@@ -71,7 +87,7 @@ public class ConverterFactory {
      * @param searchConverter searchConverter
      */
     public static void loadingCustomConverter(Field field, SearchConverter<?> searchConverter) {
-        CUSTOM_CONVERTER_MAP.put(field, searchConverter);
+        CUSTOM_CONVERTER_MAP.put(field.getType(), searchConverter);
     }
 
     static {

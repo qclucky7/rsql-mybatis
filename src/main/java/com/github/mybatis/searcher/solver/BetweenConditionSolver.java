@@ -17,11 +17,11 @@ import java.util.List;
 public class BetweenConditionSolver extends AbstractConditionSolver {
 
     @Override
-    public ExpressionWrapper doHandle(PlainSelect plainSelect, Field filed, String columnName, List<String> arguments) {
+    public ExpressionWrapper doHandle(PlainSelect plainSelect, Class<?> type, String columnName, List<String> arguments) {
         if (arguments.size() < 2) {
             return null;
         }
-        List<Object> result = ConverterFactory.lookupToConvert(filed, arguments);
+        List<Object> result = ConverterFactory.lookupToConvert(type, arguments);
         if (CollUtil.isEmpty(result) || result.size() < 2) {
             return null;
         }
@@ -31,6 +31,6 @@ public class BetweenConditionSolver extends AbstractConditionSolver {
         between.setLeftExpression(new Column(columnName));
         between.setBetweenExpressionStart(getPlaceholderExpression());
         between.setBetweenExpressionEnd(getPlaceholderExpression());
-        return new ExpressionWrapper(between, filed.getType(), param1, param2);
+        return new ExpressionWrapper(between, type, param1, param2);
     }
 }

@@ -16,15 +16,15 @@ import java.util.List;
 public abstract class AbstractSingleParameterConditionSolver extends AbstractConditionSolver {
 
     @Override
-    public ExpressionWrapper doHandle(PlainSelect plainSelect, Field filed, String columnName, List<String> arguments) {
+    public ExpressionWrapper doHandle(PlainSelect plainSelect, Class<?> type, String columnName, List<String> arguments) {
         final String param = arguments.get(0);
-        Object result = ConverterFactory.lookupToConvert(filed, param);
+        Object result = ConverterFactory.lookupToConvert(type, param);
         if (ObjectUtil.isNull(result)) {
             return null;
         }
         BinaryExpression expression = getExpression(columnName);
         expression.setRightExpression(getPlaceholderExpression());
-        return new ExpressionWrapper(expression, filed.getType(), () -> {
+        return new ExpressionWrapper(expression, type, () -> {
             if (LikeConditionSolver.class.equals(this.getClass())) {
                 return SqlUtils.concatLike(String.valueOf(result), SqlUtils.SqlLike.DEFAULT);
             } else if (LikeRightConditionSolver.class.equals(this.getClass())) {
