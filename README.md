@@ -48,7 +48,7 @@ price=bewteen=(0, 10000) //SQL where price bewteen 0 and 10000
 
 ### Maven
 
-```java
+```
 <dependency>
     <groupId>io.github.gravitymatrix</groupId>
     <artifactId>rsql-mybatis</artifactId>
@@ -90,7 +90,7 @@ price=bewteen=(0, 10000) //SQL where price bewteen 0 and 10000
    比如我name字段只想传入name=like="xxx"的时候才解析, 其他语法操作符传入则不会解析成对应的SQL语句
    
 3. 不想暴露实体字段名字, 在注解别名字段
-   ```java
+   ```
    @SearchCondition(alias = "aliasName", available = SearchType.LIKE)
    private String name;
    ```
@@ -99,7 +99,7 @@ price=bewteen=(0, 10000) //SQL where price bewteen 0 and 10000
 
    日期格式默认解析为time=between=(开始毫秒, 结束毫秒)
    
-   ```java
+   ```
    @SearchCondition(available = SearchType.BETWEEN)
    private Date time;
    ```
@@ -115,7 +115,7 @@ price=bewteen=(0, 10000) //SQL where price bewteen 0 and 10000
     }
    ```
    然后
-   ```java
+   ```
       @SearchCondition(available = SearchType.BETWEEN, converter = MyStringToDateConverter.class)
       private Date time;
    ``` 
@@ -137,7 +137,7 @@ price=bewteen=(0, 10000) //SQL where price bewteen 0 and 10000
     }
    ```
   调用
-  ```java
+  ```
 
      String search = "(phone=like="xxx",name=like="xxx");time=between=(2022-01-08,2022-01-09)";
 
