@@ -16,7 +16,7 @@
 - 不等于： !=
 - 小于：=lt= 或 <
 - 小于或等于：=le= 或 <=
-- 大于运算符：=gt= 或 >
+- 大于：=gt= 或 >
 - 大于或等于：=ge= 或 >=
 - 全模糊：=like=
 - 右模糊: =likeRight=
@@ -138,15 +138,24 @@ price=bewteen=(0, 10000) //SQL where price bewteen 0 and 10000
    ```
   调用
   ```
-
      String search = "(phone=like="xxx",name=like="xxx");time=between=(2022-01-08,2022-01-09)";
 
      accountMapper.search(new Page<>(1, 10), Searcher.builder(AccountEntity.class).search(search).build());
 
-    //SQL
-    SELECT * FROM t_account WHERE (phone LIKE ? OR name LIKE ?) AND time BETWEEN ? AND ?
-    Parameters: %xxx%(String), %xxx%(String), 1641571200000(Long), 1641657600000(Long)
+     //SQL
+     SELECT * FROM t_account WHERE (phone LIKE ? OR name LIKE ?) AND time BETWEEN ? AND ?
+     Parameters: %xxx%(String), %xxx%(String), 1641571200000(Long), 1641657600000(Long)
   ```
+
+#### 4. 获取查询对象
+   如何获取查询对象解析结果
+   ```
+      String search = "(phone=like="xxx",name=like="xxx");time=between=(2022-01-08,2022-01-09)";
+      SearchBodyAccessor solve = SqlSearchSolver.solve(AccountEntity.class, search);
+      for (SearchBodyAttributeAccessor searchBodyAttributeAccessor : solve) {
+          System.out.println(searchBodyAttributeAccessor);
+      }
+   ```
 
 ## License
 [Apache License](https://github.com/GravityMatrix/rsql-mybatis/blob/main/LICENSE)
