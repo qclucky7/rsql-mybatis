@@ -49,7 +49,7 @@ public final class SqlSearchSolver {
     }
 
     /**
-     * 尝试解析查询字符串, 为解析成功直接跳过 不去解析sql语句。
+     * 尝试解析查询字符串, 不解析成功直接跳过 不去解析sql语句。
      * @param search search
      * @return Node node
      */

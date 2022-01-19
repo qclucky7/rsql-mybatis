@@ -41,6 +41,9 @@ name=like="王";createdTime>=10000 //SQL where name like "%王%" and createdTime
 name=in=("赵","钱","孙") //SQL where name in ("赵","钱","孙")
 price=bewteen=(0, 10000) //SQL where price bewteen 0 and 10000
 
+排序
+createdTime=sort=desc //SQL where createdTime order by desc
+
 关于or查询, 只提供最外层语法解析, 嵌套不会解析
 比如: name=="王";(title=like="xxx",content=like="xxx") SQL where name = "王" and (title like "%xxx%" or content like "%xxx%")
 
