@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  **/
 public class ConverterFactory {
 
-    private static final Map<Class<?>, SearchConverter<?>> SEARCH_CONVERTER_MAP = new ConcurrentHashMap<>(9);
+    private static final Map<Class<?>, SearchConverter<?>> SEARCH_CONVERTER_MAP = new ConcurrentHashMap<>(13);
     private static final Map<Class<?>, SearchConverter<?>> CUSTOM_CONVERTER_MAP = new ConcurrentHashMap<>();
 
     public static SearchConverter<?> lookup(Class<?> type) {
@@ -91,6 +91,10 @@ public class ConverterFactory {
     }
 
     static {
+        SEARCH_CONVERTER_MAP.put(Integer.TYPE, new StringToIntegerConverter());
+        SEARCH_CONVERTER_MAP.put(Long.TYPE, new StringToLongConverter());
+        SEARCH_CONVERTER_MAP.put(Float.TYPE, new StringToFloatConverter());
+        SEARCH_CONVERTER_MAP.put(Double.TYPE, new StringToDoubleConverter());
         SEARCH_CONVERTER_MAP.put(String.class, new StringToStringConverter());
         SEARCH_CONVERTER_MAP.put(Integer.class, new StringToIntegerConverter());
         SEARCH_CONVERTER_MAP.put(Long.class, new StringToLongConverter());

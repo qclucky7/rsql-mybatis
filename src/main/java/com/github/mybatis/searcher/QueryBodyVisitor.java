@@ -97,13 +97,13 @@ public class QueryBodyVisitor extends NoArgRSQLVisitorAdapter<SearchBodyAccessor
         Class<?> type = field.getType();
         if (String.class.equals(type)) {
             return arguments.get(0);
-        } else if (Long.class.equals(type) || long.class.equals(type)) {
+        } else if (Long.class.equals(type) || Long.TYPE.equals(type)) {
             try {
                 return Long.valueOf(arguments.get(0));
             } catch (Exception ex) {
                 return 0L;
             }
-        } else if (Integer.class.equals(type) || int.class.equals(type)) {
+        } else if (Integer.class.equals(type) || Integer.TYPE.equals(type)) {
             try {
                 return Integer.valueOf(arguments.get(0));
             } catch (Exception ex) {
