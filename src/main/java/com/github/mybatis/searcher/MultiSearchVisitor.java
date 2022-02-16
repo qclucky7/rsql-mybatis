@@ -31,8 +31,21 @@ public class MultiSearchVisitor extends AbstractSearchVisitor {
 
     public MultiSearchVisitor(PlainSelect plainSelect, Class<?> target) {
         super(plainSelect, target);
-        initAliasContextCache();
         initAliasTableCache();
+        initAliasContextCache();
+    }
+
+    private void initAliasTableCache() {
+        aliasTable = CACHE_TABLE_ALIAS.get(target, (Func0<SimpleCache<String, String>>) () -> {
+            SimpleCache<String, String> aliasTable = new SimpleCache<>();
+            FromItemVisitorImpl fromItemVisitor = new FromItemVisitorImpl(aliasTable);
+            FromItem mainTable = plainSelect.getFromItem();
+            mainTable.accept(fromItemVisitor);
+            for (Join join : plainSelect.getJoins()) {
+                join.getRightItem().accept(fromItemVisitor);
+            }
+            return aliasTable;
+        });
     }
 
     private void initAliasContextCache() {
@@ -54,10 +67,14 @@ public class MultiSearchVisitor extends AbstractSearchVisitor {
                 if (StrUtil.isBlank(columnName)) {
                     columnName = StrUtil.toUnderlineCase(field.getName());
                 }
+                String tableAlias = aliasTable.get(analyzeContext.getTableName());
+                if (StrUtil.isBlank(tableAlias)) {
+                    continue;
+                }
                 SearchType[] support = multiSearchCondition.available();
                 analyzeContext.setTarget(target);
                 analyzeContext.setField(field);
-                analyzeContext.setColumnName(columnName);
+                analyzeContext.setColumnName(joiningAliasQuery(tableAlias, columnName));
                 analyzeContext.setSupport(Stream.of(support).flatMap(type -> Stream.of(SolverType.getTargetSymbols(type))).collect(Collectors.toSet()));
                 analyzeContext.setTableName(multiSearchCondition.tableName());
                 aliasColumn.put(alias, analyzeContext);
@@ -66,31 +83,10 @@ public class MultiSearchVisitor extends AbstractSearchVisitor {
         });
     }
 
-    private void initAliasTableCache() {
-        aliasTable = CACHE_TABLE_ALIAS.get(target, (Func0<SimpleCache<String, String>>) () -> {
-            SimpleCache<String, String> aliasTable = new SimpleCache<>();
-            FromItemVisitorImpl fromItemVisitor = new FromItemVisitorImpl(aliasTable);
-            FromItem mainTable = plainSelect.getFromItem();
-            mainTable.accept(fromItemVisitor);
-            for (Join join : plainSelect.getJoins()) {
-                join.getRightItem().accept(fromItemVisitor);
-            }
-            return aliasTable;
-        });
-    }
 
     @Override
     public SolverContext getContext(String selector) {
-        MultiSolverContext analyzeContext = aliasColumn.get(selector);
-        if (ObjectUtil.isNull(analyzeContext)) {
-            return null;
-        }
-        String tableAlias = aliasTable.get(analyzeContext.getTableName());
-        if (StrUtil.isBlank(tableAlias)) {
-            return null;
-        }
-        analyzeContext.setColumnName(joiningAliasQuery(tableAlias, analyzeContext.getColumnName()));
-        return analyzeContext;
+        return aliasColumn.get(selector);
     }
 
     private String joiningAliasQuery(String tableAlias, String columnName) {
