@@ -24,8 +24,8 @@ import java.util.stream.Stream;
  **/
 public class MultiSearchVisitor extends AbstractSearchVisitor {
 
-    private static SimpleCache<Class<?>, SimpleCache<String, MultiSolverContext>> CACHE_ALIAS_CONTEXT = new SimpleCache<>(new HashMap<>());
-    private static SimpleCache<Class<?>, SimpleCache<String, String>> CACHE_TABLE_ALIAS = new SimpleCache<>(new HashMap<>());
+    private static final SimpleCache<Class<?>, SimpleCache<String, MultiSolverContext>> CACHE_ALIAS_CONTEXT = new SimpleCache<>(new HashMap<>());
+    private static final SimpleCache<Class<?>, SimpleCache<String, String>> CACHE_TABLE_ALIAS = new SimpleCache<>(new HashMap<>());
     private SimpleCache<String, MultiSolverContext> aliasColumn;
     private SimpleCache<String, String> aliasTable;
 
@@ -104,7 +104,7 @@ public class MultiSearchVisitor extends AbstractSearchVisitor {
 
         @Override
         public void visit(Table table) {
-            aliasTable.put(table.getName().trim(), table.getAlias().toString().trim());
+            aliasTable.put(table.getName().trim(), table.getAlias().getName().trim());
         }
     }
 }

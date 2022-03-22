@@ -8,9 +8,9 @@ import java.util.Collection;
  **/
 public class SearchBodyAttribute implements SearchBodyAttributeAccessor {
 
-    private String attributeName;
-    private Collection<Object> attributeValue;
-    private String symbol;
+    private final String attributeName;
+    private final Collection<Object> attributeValue;
+    private final String symbol;
 
     public SearchBodyAttribute(String attributeName, Collection<Object> attributeValue, String symbol) {
         this.attributeName = attributeName;

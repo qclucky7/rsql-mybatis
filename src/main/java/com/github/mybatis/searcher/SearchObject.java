@@ -6,8 +6,8 @@ package com.github.mybatis.searcher;
  **/
 public final class SearchObject<T> implements Searchable<T> {
 
-    private Class<T> clazz;
-    private String search;
+    private final Class<T> clazz;
+    private final String search;
 
     public SearchObject(Class<T> clazz, String search) {
         this.clazz = clazz;

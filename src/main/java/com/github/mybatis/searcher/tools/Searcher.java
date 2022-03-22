@@ -17,7 +17,7 @@ public final class Searcher {
 
     public static class SearchObjectBuilder<T> implements Builder<Searchable<T>> {
 
-        private Class<T> clazz;
+        private final Class<T> clazz;
         private String searchString;
 
         public SearchObjectBuilder(Class<T> clazz) {

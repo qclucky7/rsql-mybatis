@@ -23,10 +23,10 @@ import java.util.stream.Stream;
  **/
 public class QueryBodyVisitor extends NoArgRSQLVisitorAdapter<SearchBodyAccessor> {
 
-    private static SimpleCache<Class<?>, SimpleCache<String, QueryBodyContext>> CACHE = new SimpleCache<>();
-    private SimpleCache<String, QueryBodyContext> aliasQueryBody;
-    private SearchBodyAccessor searchBodyAccessor;
-    private ParseRepeatCounter parseRepeatCounter;
+    private static final SimpleCache<Class<?>, SimpleCache<String, QueryBodyContext>> CACHE = new SimpleCache<>();
+    private final SimpleCache<String, QueryBodyContext> aliasQueryBody;
+    private final SearchBodyAccessor searchBodyAccessor;
+    private final ParseRepeatCounter parseRepeatCounter;
 
     public QueryBodyVisitor(Class<?> target) {
         searchBodyAccessor = new SearchBodyAccessor();

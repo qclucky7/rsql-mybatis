@@ -22,7 +22,7 @@ import java.util.stream.Stream;
  **/
 public class SingleSearchVisitor extends AbstractSearchVisitor {
 
-    private static SimpleCache<Class<?>, SimpleCache<String, SolverContext>> CACHE_ALIAS_CONTEXT = new SimpleCache<>(new HashMap<>());
+    private static final SimpleCache<Class<?>, SimpleCache<String, SolverContext>> CACHE_ALIAS_CONTEXT = new SimpleCache<>(new HashMap<>());
     private SimpleCache<String, SolverContext> aliasColumn;
 
     public SingleSearchVisitor(PlainSelect plainSelect, Class<?> target) {

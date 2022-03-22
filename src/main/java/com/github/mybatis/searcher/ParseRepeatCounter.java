@@ -11,7 +11,7 @@ import java.util.Map;
  **/
 public class ParseRepeatCounter {
 
-    private Map<String, Integer> parseCounter = new HashMap<>();
+    private final Map<String, Integer> parseCounter = new HashMap<>();
 
     public boolean alreadyParsed(String selectorSymbol) {
         Integer integer = parseCounter.get(selectorSymbol);

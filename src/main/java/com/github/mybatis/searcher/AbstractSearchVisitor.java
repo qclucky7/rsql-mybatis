@@ -31,11 +31,11 @@ import java.util.function.Supplier;
  **/
 public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<PlainSelect> {
 
-    private static Logger logger = LoggerFactory.getLogger(AbstractSearchVisitor.class);
-    private static SimpleCache<Class<?>, AliasColumn> CACHE_QUERYABLE_FIELDS = new SimpleCache<>(new HashMap<>());
+    private static final Logger logger = LoggerFactory.getLogger(AbstractSearchVisitor.class);
+    private static final SimpleCache<Class<?>, AliasColumn> CACHE_QUERYABLE_FIELDS = new SimpleCache<>(new HashMap<>());
     protected PlainSelect plainSelect;
     protected Class<?> target;
-    private ParseRepeatCounter parseRepeatCounter;
+    private final ParseRepeatCounter parseRepeatCounter;
 
     public AbstractSearchVisitor(PlainSelect plainSelect, Class<?> target) {
         this.plainSelect = plainSelect;
@@ -155,6 +155,7 @@ public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<Plai
      * 装载自定义转换器
      * @param field field
      * @param targetSearchConverterClass {@code Class<? extends SearchConverter<?>>}
+     * @throws IllegalAccessException IllegalAccessException
      */
     protected void loadingConverter(Field field, Class<? extends SearchConverter<?>> targetSearchConverterClass) throws IllegalAccessException {
         if (EmptyConverter.class.equals(targetSearchConverterClass)){
@@ -268,8 +269,8 @@ public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<Plai
         }
 
         class FieldSymbolKey {
-            private String selector;
-            private String symbol;
+            private final String selector;
+            private final String symbol;
 
             public FieldSymbolKey(String selector, String symbol) {
                 this.selector = selector;
