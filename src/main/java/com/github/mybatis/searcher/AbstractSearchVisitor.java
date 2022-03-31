@@ -22,6 +22,8 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -32,7 +34,7 @@ import java.util.function.Supplier;
 public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<PlainSelect> {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractSearchVisitor.class);
-    private static final SimpleCache<Class<?>, AliasColumn> CACHE_QUERYABLE_FIELDS = new SimpleCache<>(new HashMap<>());
+    private static final ConcurrentMap<Class<?>, AliasColumn> CACHE_QUERYABLE_FIELDS = new ConcurrentHashMap<>(32);
     protected PlainSelect plainSelect;
     protected Class<?> target;
     private final ParseRepeatCounter parseRepeatCounter;
@@ -45,7 +47,7 @@ public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<Plai
     }
 
     private void initQueryFieldsCache() {
-        CACHE_QUERYABLE_FIELDS.get(target, (Func0<AliasColumn>) () -> {
+        CACHE_QUERYABLE_FIELDS.computeIfAbsent(target, clazz -> {
             SearchableFields annotation = target.getAnnotation(SearchableFields.class);
             AliasColumn aliasColumn = new AliasColumn();
             Field[] fields = ReflectUtil.getFields(target);
@@ -155,16 +157,15 @@ public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<Plai
      * 装载自定义转换器
      * @param field field
      * @param targetSearchConverterClass {@code Class<? extends SearchConverter<?>>}
-     * @throws IllegalAccessException IllegalAccessException
      */
-    protected void loadingConverter(Field field, Class<? extends SearchConverter<?>> targetSearchConverterClass) throws IllegalAccessException {
+    protected void loadingConverter(Field field, Class<? extends SearchConverter<?>> targetSearchConverterClass){
         if (EmptyConverter.class.equals(targetSearchConverterClass)){
             return;
         }
         try {
             ConverterFactory.loadingCustomConverter(field, targetSearchConverterClass.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new IllegalAccessException(String.format("cannot initialize the current converter on %s", targetSearchConverterClass));
+            logger.error("cannot initialize the current converter on {}", targetSearchConverterClass);
         }
     }
 
@@ -183,7 +184,7 @@ public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<Plai
      */
     private class MultiOrExpressionSearchVisitor extends NoArgRSQLVisitorAdapter<PlainSelect> implements Callback {
 
-        private Map<FieldSymbolKey, SolverContextWrapper> solverContextWrappers = new HashMap<>();
+        private final Map<FieldSymbolKey, SolverContextWrapper> solverContextWrappers = new HashMap<>();
 
         @Override
         public PlainSelect visit(AndNode andNode) {
