@@ -14,6 +14,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,16 +25,16 @@ import java.util.stream.Stream;
  **/
 public class QueryBodyVisitor extends NoArgRSQLVisitorAdapter<SearchBodyAccessor> {
 
-    private static final SimpleCache<Class<?>, SimpleCache<String, QueryBodyContext>> CACHE = new SimpleCache<>();
-    private final SimpleCache<String, QueryBodyContext> aliasQueryBody;
+    private static final ConcurrentMap<Class<?>, ConcurrentMap<String, QueryBodyContext>> CACHE = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, QueryBodyContext> aliasQueryBody;
     private final SearchBodyAccessor searchBodyAccessor;
     private final ParseRepeatCounter parseRepeatCounter;
 
     public QueryBodyVisitor(Class<?> target) {
         searchBodyAccessor = new SearchBodyAccessor();
         parseRepeatCounter = new ParseRepeatCounter();
-        aliasQueryBody = CACHE.get(target, (Func0<SimpleCache<String, QueryBodyContext>>) () -> {
-            SimpleCache<String, QueryBodyContext> entries = new SimpleCache<>();
+        aliasQueryBody = CACHE.computeIfAbsent(target, clazz -> {
+            ConcurrentMap<String, QueryBodyContext> entries = new ConcurrentHashMap<>();
             Field[] fields = ReflectUtil.getFields(target);
             for (Field field : fields) {
                 SearchCondition annotation = field.getAnnotation(SearchCondition.class);
