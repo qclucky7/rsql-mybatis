@@ -21,8 +21,8 @@ public class BetweenConditionSolver extends AbstractConditionSolver {
         if (arguments.size() < 2) {
             return null;
         }
-        List<Object> result = ConverterFactory.lookupToConvert(type, arguments);
-        if (CollUtil.isEmpty(result) || result.size() < 2) {
+        List<?> result = ConverterFactory.lookupToConvert(type, arguments);
+        if (result.size() < 2) {
             return null;
         }
         Object param1 = result.get(0);

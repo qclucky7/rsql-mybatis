@@ -19,9 +19,6 @@ public abstract class AbstractSingleParameterConditionSolver extends AbstractCon
     public ExpressionWrapper doHandle(PlainSelect plainSelect, Class<?> type, String columnName, List<String> arguments) {
         final String param = arguments.get(0);
         Object result = ConverterFactory.lookupToConvert(type, param);
-        if (ObjectUtil.isNull(result)) {
-            return null;
-        }
         BinaryExpression expression = getExpression(columnName);
         expression.setRightExpression(getPlaceholderExpression());
         return new ExpressionWrapper(expression, type, () -> {

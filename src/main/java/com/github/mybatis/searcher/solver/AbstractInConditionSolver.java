@@ -22,16 +22,13 @@ public abstract class AbstractInConditionSolver extends AbstractConditionSolver 
     public ExpressionWrapper doHandle(PlainSelect plainSelect, Class<?> type, String columnName, List<String> arguments) {
         ExpressionList expressionList = new ExpressionList();
         List<Expression> placeholderExpression;
-        List<Object> result = ConverterFactory.lookupToConvert(type, arguments);
-        if (CollUtil.isEmpty(result)){
-            return null;
-        }
+        List<?> result = ConverterFactory.lookupToConvert(type, arguments);
         placeholderExpression = result.stream()
                 .map(arg -> getPlaceholderExpression())
                 .collect(Collectors.toList());
         expressionList.setExpressions(placeholderExpression);
         Expression expression = getExpression(columnName, expressionList);
-        return new ExpressionWrapper(expression, type, result);
+        return new ExpressionWrapper(expression, type, arguments);
     }
 
     /**

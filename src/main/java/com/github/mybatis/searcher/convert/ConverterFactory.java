@@ -1,7 +1,10 @@
 package com.github.mybatis.searcher.convert;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.ObjectUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -16,6 +19,8 @@ import java.util.stream.Collectors;
  * @since 2022-01-07 17:43
  **/
 public class ConverterFactory {
+
+    private static final Logger logger = LoggerFactory.getLogger(ConverterFactory.class);
 
     private static final Map<Class<?>, SearchConverter<?>> SEARCH_CONVERTER_MAP = new ConcurrentHashMap<>(13);
     private static final Map<Class<?>, SearchConverter<?>> CUSTOM_CONVERTER_MAP = new ConcurrentHashMap<>();
@@ -32,12 +37,16 @@ public class ConverterFactory {
     public static Object lookupToConvert(Class<?> type, String param){
         final SearchConverter<?> searchConverter = lookup(type);
         if (ObjectUtil.isNull(searchConverter)) {
-            return null;
+            return param;
         }
         //自定义转换器转换失败不抛出异常
         try {
             return searchConverter.convert(param);
         } catch (Exception e) {
+            logger.error("[ConverterFactory] converter: {} param: {} error: {}", type, param, e.getMessage());
+            if (logger.isDebugEnabled()){
+                logger.error("[ConverterFactory] converter: {} param: {} error: {}", type, param, ExceptionUtil.stacktraceToString(e));
+            }
             return null;
         }
     }
@@ -51,19 +60,23 @@ public class ConverterFactory {
     }
 
 
-    public static List<Object> lookupToConvert(Class<?> type, List<String> params) {
+    public static List<?> lookupToConvert(Class<?> type, List<String> params) {
         if (CollUtil.isEmpty(params)) {
             return Collections.emptyList();
         }
         final SearchConverter<?> searchConverter = lookup(type);
         if (ObjectUtil.isNull(searchConverter)) {
-            return null;
+            return params;
         }
         return params.stream()
                 .map(param -> {
                     try {
                         return searchConverter.convert(param);
                     } catch (Exception e) {
+                        logger.error("[ConverterFactory] converter: {} param: {} error: {}", type, param, e.getMessage());
+                        if (logger.isDebugEnabled()){
+                            logger.error("[ConverterFactory] converter: {} param: {} error: {}", type, param, ExceptionUtil.stacktraceToString(e));
+                        }
                         return null;
                     }
                 })
@@ -72,7 +85,7 @@ public class ConverterFactory {
     }
 
 
-    public static List<Object> lookupToConvert(Field field, List<String> params) {
+    public static List<?> lookupToConvert(Field field, List<String> params) {
         if (ObjectUtil.isNull(field)){
             return Collections.emptyList();
         }
