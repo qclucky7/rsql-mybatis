@@ -55,7 +55,7 @@ createdTime=sort=desc //SQL where createdTime order by desc
 <dependency>
     <groupId>io.github.gravitymatrix</groupId>
     <artifactId>rsql-mybatis</artifactId>
-    <version>1.0.0</version>
+    <version>Latest Version</version>
 </dependency>
 ```
 
