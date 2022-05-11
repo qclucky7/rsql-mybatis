@@ -47,7 +47,7 @@ public class ConverterFactory {
             if (logger.isDebugEnabled()){
                 logger.error("[ConverterFactory] converter: {} param: {} error: {}", type, param, ExceptionUtil.stacktraceToString(e));
             }
-            return null;
+            return param;
         }
     }
 

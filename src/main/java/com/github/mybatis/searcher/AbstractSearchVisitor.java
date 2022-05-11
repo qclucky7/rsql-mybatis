@@ -124,6 +124,9 @@ public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<Plai
                 return plainSelect;
             }
             ExpressionDelegate expressionDelegate = conditionSolver.handle(plainSelect, new SolverContextWrapper(solverContext, arguments));
+            if (ObjectUtil.isNull(expressionDelegate)){
+                return plainSelect;
+            }
             Expression expression = expressionDelegate.getExpression();
             List<Object> params = expressionDelegate.getParams();
             Class<?> type = expressionDelegate.getType();

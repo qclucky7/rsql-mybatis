@@ -23,6 +23,9 @@ public abstract class AbstractInConditionSolver extends AbstractConditionSolver 
         ExpressionList expressionList = new ExpressionList();
         List<Expression> placeholderExpression;
         List<?> result = ConverterFactory.lookupToConvert(type, arguments);
+        if (CollUtil.isEmpty(result)){
+            return null;
+        }
         placeholderExpression = result.stream()
                 .map(arg -> getPlaceholderExpression())
                 .collect(Collectors.toList());

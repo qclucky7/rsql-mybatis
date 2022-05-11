@@ -10,9 +10,9 @@ import java.util.List;
  **/
 public class SolverContextWrapper {
 
-    private SolverContext solverContext;
+    private final SolverContext solverContext;
 
-    private List<String> arguments;
+    private final List<String> arguments;
 
     public SolverContextWrapper(SolverContext solverContext, List<String> arguments) {
         this.solverContext = solverContext;
