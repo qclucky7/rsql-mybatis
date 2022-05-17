@@ -54,9 +54,11 @@ public class SearchConditionsInterceptor implements Interceptor {
                     }
                 }
             }
+
             if (ObjectUtil.isNull(searchable)) {
                 return invocation.proceed();
             }
+
             Class<?> target = searchable.target();
             String searchString = searchable.getSearchString();
             //预尝试解析查询字符串, 失败不去解析SQL

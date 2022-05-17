@@ -86,8 +86,8 @@ public enum SolverType {
     EXCLUDE(ExtensionRSQLOperators.EXCLUDE_FIELDS);
 
 
-    private ComparisonOperator operator;
-    private static Map<String, SolverType> NAME_CACHE = new HashMap<>(SolverType.values().length);
+    private final ComparisonOperator operator;
+    private static final Map<String, SolverType> NAME_CACHE = new HashMap<>(SolverType.values().length);
 
     static {
         for (SolverType solverType : SolverType.values()) {

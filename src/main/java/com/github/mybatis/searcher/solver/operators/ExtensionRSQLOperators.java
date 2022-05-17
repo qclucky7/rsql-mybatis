@@ -11,12 +11,12 @@ import java.util.Set;
  **/
 public final class ExtensionRSQLOperators extends RSQLOperators {
 
-    public static ComparisonOperator LIKE = new ComparisonOperator("=like=");
-    public static ComparisonOperator LIKE_RIGHT = new ComparisonOperator("=likeRight=");
-    public static ComparisonOperator SORTABLE = new ComparisonOperator("=sort=");
-    public static ComparisonOperator INCLUDE_FIELDS = new ComparisonOperator("=include=", true);
-    public static ComparisonOperator EXCLUDE_FIELDS = new ComparisonOperator("=exclude=", true);
-    public static ComparisonOperator BETWEEN = new ComparisonOperator("=between=", true);
+    public static final ComparisonOperator LIKE = new ComparisonOperator("=like=");
+    public static final ComparisonOperator LIKE_RIGHT = new ComparisonOperator("=likeRight=");
+    public static final ComparisonOperator SORTABLE = new ComparisonOperator("=sort=");
+    public static final ComparisonOperator INCLUDE_FIELDS = new ComparisonOperator("=include=", true);
+    public static final ComparisonOperator EXCLUDE_FIELDS = new ComparisonOperator("=exclude=", true);
+    public static final ComparisonOperator BETWEEN = new ComparisonOperator("=between=", true);
 
     public static Set<ComparisonOperator> getAllOperators() {
         Set<ComparisonOperator> comparisonOperators = defaultOperators();

@@ -21,10 +21,10 @@ import org.slf4j.LoggerFactory;
 public final class SqlSearchSolver {
 
     private static final Logger logger = LoggerFactory.getLogger(SqlSearchSolver.class);
-    private static RSQLParser rsqlParser;
+    private static final RSQLParser PARSER;
 
     static {
-        rsqlParser = new RSQLParser(ExtensionRSQLOperators.getAllOperators());
+        PARSER = new RSQLParser(ExtensionRSQLOperators.getAllOperators());
     }
 
     /**
@@ -32,14 +32,14 @@ public final class SqlSearchSolver {
      *
      * @param target 转换目标类
      * @param search search
-     * @return SearchBodyAccessor searchBodyAccessor
+     * @return SearchBodyAccessor
      */
     public static SearchBodyAccessor solve(Class<?> target, String search){
         if (StrUtil.isBlank(search)){
             return SearchBodyAccessor.empty();
         }
         try {
-            return rsqlParser.parse(search).accept(new QueryBodyVisitor(target));
+            return PARSER.parse(search).accept(new QueryBodyVisitor(target));
         } catch (Exception ex) {
             if (logger.isDebugEnabled()) {
                 logger.debug("[SqlSearchSolver] parsing search string fail！ target:{}, search:{}", target, search);
@@ -58,7 +58,7 @@ public final class SqlSearchSolver {
             return null;
         }
         try {
-            return rsqlParser.parse(search);
+            return PARSER.parse(search);
         } catch (RSQLParserException e) {
             return null;
         }
