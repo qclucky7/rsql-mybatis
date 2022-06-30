@@ -106,7 +106,8 @@ public class MultiSearchVisitor extends AbstractSearchVisitor {
 
         @Override
         public void visit(Table table) {
-            aliasTable.put(table.getName().trim(), table.getAlias().getName().trim());
+            String tableName = table.getName().trim();
+            aliasTable.put(tableName, table.getAlias() == null ? tableName : table.getAlias().getName().trim());
         }
     }
 }
