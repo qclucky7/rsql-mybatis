@@ -7,7 +7,7 @@
 
     <groupId>io.github.gravitymatrix</groupId>
     <artifactId>rsql-mybatis</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 
     <name>rsql-mybatis</name>
     <description>基于rsql的mybatis查询解析器</description>
