@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.github.mybatis.searcher.Searchable;
 import com.github.mybatis.searcher.holder.MappingContext;
 import com.github.mybatis.searcher.holder.MybatisMappingContextHolder;
+import com.github.mybatis.searcher.solver.SolverDiscoverer;
 import com.github.mybatis.searcher.solver.SqlSearchSolver;
 import com.github.mybatis.searcher.tools.PluginUtils;
 import cz.jirutka.rsql.parser.ast.Node;

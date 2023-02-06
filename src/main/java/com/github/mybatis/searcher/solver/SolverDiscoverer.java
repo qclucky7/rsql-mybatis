@@ -19,6 +19,10 @@ public final class SolverDiscoverer {
     private static final Logger logger = LoggerFactory.getLogger(SolverDiscoverer.class);
     private static final Map<String, Solver> SOLVERS = new ConcurrentHashMap<>(SolverType.values().length);
 
+    public static Class<SolverDiscoverer> load(){
+        return SolverDiscoverer.class;
+    }
+
     public static Solver lookup(String symbol) {
         return SOLVERS.get(symbol);
     }

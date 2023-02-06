@@ -60,7 +60,6 @@ public class MultiSearchVisitor extends AbstractSearchVisitor {
                     continue;
                 }
                 loadingConverter(field, multiSearchCondition.converter());
-                MultiSolverContext analyzeContext = new MultiSolverContext();
                 String alias = multiSearchCondition.alias();
                 if (StrUtil.isBlank(alias)) {
                     alias = field.getName();
@@ -69,10 +68,11 @@ public class MultiSearchVisitor extends AbstractSearchVisitor {
                 if (StrUtil.isBlank(columnName)) {
                     columnName = StrUtil.toUnderlineCase(field.getName());
                 }
-                String tableAlias = aliasTable.get(analyzeContext.getTableName());
+                String tableAlias = aliasTable.get(multiSearchCondition.tableName());
                 if (StrUtil.isBlank(tableAlias)) {
                     continue;
                 }
+                MultiSolverContext analyzeContext = new MultiSolverContext();
                 SearchType[] support = multiSearchCondition.available();
                 analyzeContext.setTarget(target);
                 analyzeContext.setField(field);

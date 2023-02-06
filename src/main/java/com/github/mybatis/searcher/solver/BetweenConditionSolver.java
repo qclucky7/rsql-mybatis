@@ -1,12 +1,10 @@
 package com.github.mybatis.searcher.solver;
 
-import cn.hutool.core.collection.CollUtil;
 import com.github.mybatis.searcher.convert.ConverterFactory;
 import net.sf.jsqlparser.expression.operators.relational.Between;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 /**
