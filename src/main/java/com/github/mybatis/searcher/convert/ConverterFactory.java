@@ -108,6 +108,8 @@ public class ConverterFactory {
         SEARCH_CONVERTER_MAP.put(Long.TYPE, new StringToLongConverter());
         SEARCH_CONVERTER_MAP.put(Float.TYPE, new StringToFloatConverter());
         SEARCH_CONVERTER_MAP.put(Double.TYPE, new StringToDoubleConverter());
+        SEARCH_CONVERTER_MAP.put(Boolean.TYPE, new StringToBooleanConverter());
+        SEARCH_CONVERTER_MAP.put(Boolean.class, new StringToBooleanConverter());
         SEARCH_CONVERTER_MAP.put(String.class, new StringToStringConverter());
         SEARCH_CONVERTER_MAP.put(Integer.class, new StringToIntegerConverter());
         SEARCH_CONVERTER_MAP.put(Long.class, new StringToLongConverter());
