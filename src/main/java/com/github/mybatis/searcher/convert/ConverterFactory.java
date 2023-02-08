@@ -22,7 +22,7 @@ public class ConverterFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(ConverterFactory.class);
 
-    private static final Map<Class<?>, SearchConverter<?>> SEARCH_CONVERTER_MAP = new ConcurrentHashMap<>(13);
+    private static final Map<Class<?>, SearchConverter<?>> SEARCH_CONVERTER_MAP = new ConcurrentHashMap<>(15);
     private static final Map<Class<?>, SearchConverter<?>> CUSTOM_CONVERTER_MAP = new ConcurrentHashMap<>();
 
     public static SearchConverter<?> lookup(Class<?> type) {
