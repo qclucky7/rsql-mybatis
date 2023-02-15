@@ -139,9 +139,7 @@ public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<Plai
             } else {
                 plainSelect.setWhere(new AndExpression(where, expression));
             }
-            for (int i = 0; i < params.size(); i++) {
-                MybatisMappingContextHolder.constructMappingParameter("searchParam" +  solverContext.getField().getName() + i, type, params.get(i));
-            }
+            paddingParameter(solverContext, type, params);
 
         } else if (solver instanceof ResultSetSolver) {
             ResultSetSolver resultSetSolver = (ResultSetSolver) solver;
@@ -255,9 +253,7 @@ public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<Plai
                     if (CollUtil.isEmpty(params)) {
                         continue;
                     }
-                    for (int i = 0; i < params.size(); i++) {
-                        MybatisMappingContextHolder.constructMappingParameter("searchParam" + contextWrapper.getSolverContext().getField().getName() + i, type, params.get(i));
-                    }
+                    paddingParameter(contextWrapper.getSolverContext(), type, params);
                     multiOrExpression.getList().add(expression);
                 }
             }
@@ -271,6 +267,7 @@ public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<Plai
                 plainSelect.setWhere(new AndExpression(where, multiOrExpression));
             }
         }
+
 
         class FieldSymbolKey {
             private final String selector;
@@ -313,6 +310,27 @@ public abstract class AbstractSearchVisitor extends NoArgRSQLVisitorAdapter<Plai
             @Override
             public int hashCode() {
                 return Objects.hash(selector, symbol);
+            }
+        }
+    }
+
+
+    /**
+     * 填充参数
+     *
+     * @param params        参数个数
+     * @param solverContext 解算器上下文
+     */
+    private static void paddingParameter(SolverContext solverContext, Class<?> type, List<Object> params) {
+        for (int i = 0; i < params.size(); i++) {
+            Object param = params.get(i);
+            if (param instanceof List) {
+                List<?> collection = (List<?>) param;
+                for (int i1 = 0; i1 < collection.size(); i1++) {
+                    MybatisMappingContextHolder.constructMappingParameter("searchParam" + solverContext.getField().getName() + i + i1, type, collection.get(i1));
+                }
+            } else {
+                MybatisMappingContextHolder.constructMappingParameter("searchParam" + solverContext.getField().getName() + i, type, params.get(i));
             }
         }
     }
